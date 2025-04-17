@@ -1,1 +1,1 @@
-# savita
+# fake naira currency detection
