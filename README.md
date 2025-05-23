@@ -4,15 +4,7 @@ This project implements a software-based solution for detecting fake Nigerian cu
 
 ---
 
-## 📌 Table of Contents
-- [Project Overview](#project-overview)
-- [Workflow Diagram](#workflow-diagram)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [How It Works](#how-it-works)
-- [Code Highlights](#code-highlights)
-- [Output](#output)
-- [License](#license)
+
 
 ---
 
