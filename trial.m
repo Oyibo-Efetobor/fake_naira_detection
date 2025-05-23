@@ -5,15 +5,21 @@
 % - Enhanced error handling
 % - Better feature extraction
 
+% =====================
+% Step 1: Start
+% =====================
+
 clc; clear; close all;
 
-%% Configuration
+%% Step 2: Configuration
+% (Set parameters for training and preprocessing)
 numEpochs = 1;
 validationSplit = 0.2;
 dataAugmentation = true;
 standard_size = [256, 256];
 
-%% Initialize Global Variables Properly
+%% Step 3: Initialize Global Variables
+% (Prepare variables for models and normalization)
 global mu sigma final_svm_model cnn_model knn_model
 mu = [];
 sigma = [];
@@ -21,7 +27,8 @@ final_svm_model = [];
 cnn_model = [];
 knn_model = [];
 
-%% Load Data with Better Error Handling
+%% Step 4: Load Dataset
+% (Load images and labels from dataset folders)
 disp('Loading data...');
 try
     [fake_detection_features, denomination_data, labels_fake, labels_denomination] = loadData(standard_size);
@@ -29,7 +36,10 @@ catch ME
     error('Data loading failed: %s', ME.message);
 end
 
-%% Verify Dataset Quality
+%% Step 5: Preprocessing (Grayscale + Resize)
+% (Handled inside loadData and extractCurrencyFeatures)
+
+%% Step 6: Verify Dataset Quality
 if length(unique(labels_fake)) < 2
     error('Dataset must contain both genuine and fake samples');
 end
@@ -37,7 +47,11 @@ end
 disp(['Genuine samples: ' num2str(sum(labels_fake==1))]);
 disp(['Fake samples: ' num2str(sum(labels_fake==2))]);
 
-%% Train SVM with Proper Validation
+%% Step 7: Segmentation (Threshold + ROI)
+% (Segmentation is performed in createMask and showResults)
+
+%% Step 8: Classification (SVM)
+% (Train SVM classifier for fake/genuine detection)
 disp('Training SVM...');
 [X_train, X_test, y_train, y_test] = prepareData(fake_detection_features, labels_fake, validationSplit);
 
@@ -49,7 +63,8 @@ final_svm_model = trainSVM(X_train, y_train);
 accuracy = sum(y_pred == y_test)/length(y_test)*100;
 disp(['Test accuracy: ' num2str(accuracy) '%']);
 
-%% Train Denomination Classifier
+%% Step 9: Classification (Denomination - CNN/KNN)
+% (Train denomination classifier using CNN or KNN)
 disp('Training denomination classifier...');
 if license('test','neural_network_toolbox') && ~isempty(ver('nnet'))
     cnn_model = trainCNN(denomination_data, labels_denomination, standard_size, numEpochs, dataAugmentation);
@@ -57,11 +72,17 @@ else
     knn_model = trainKNN(denomination_data, labels_denomination, validationSplit);
 end
 
-%% Save Models Properly
+%% Step 10: Save Models
+% (Save trained models and normalization parameters)
 saveModels(final_svm_model, cnn_model, knn_model, mu, sigma);
 
-%% Launch UI
+%% Step 11: Output (Real or Fake)
+% (Launch UI for user to test images and see results)
 runCurrencyDetection();
+
+% =====================
+% Step 12: End
+% =====================
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Supporting Functions
