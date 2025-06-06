@@ -13,8 +13,8 @@ clc; clear; close all;
 
 %% Step 2: Configuration
 % (Set parameters for training and preprocessing)
-numEpochs = 1;
-validationSplit = 0.2;
+numEpochs = 9;
+validationSplit = 0.15;
 dataAugmentation = true;
 standard_size = [256, 256];
 
