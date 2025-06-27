@@ -1,4 +1,4 @@
-# Nigerian Currency Note Fake Detection System 🏦🔍
+# Nigerian Currency Note Fake Detection System 🏦
 
 This project implements a software-based solution for detecting fake Nigerian currency notes using image processing techniques and machine learning. The system utilizes **MATLAB** for the algorithmic pipeline and leverages **Support Vector Machines (SVM)** and **Optical Character Recognition (OCR)** for classification and denomination recognition respectively.
 
